@@ -1,7 +1,7 @@
 <?xml version='1.1' encoding='UTF-8'?>
 <flow-definition plugin="workflow-job@1571.vb_423c255d6d9">
   <actions/>
-  <description>Sample template-style pipeline backed by the my-shared-library shared library.</description>
+  <description>Sample template-style pipeline backed by the sample-jenkins-template shared library.</description>
   <keepDependencies>false</keepDependencies>
   <properties>
     <hudson.plugins.jira.JiraProjectProperty plugin="jira@3.21"/>
