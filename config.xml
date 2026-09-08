@@ -1,0 +1,83 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<!--
+  Sample Jenkins job config (config.xml) for the sample-jenkins-template repository.
+
+  This job:
+    - Is parameterized (parameters are exposed to the Jenkinsfile via `params.*`)
+    - Uses "Pipeline script from SCM", pointing at the Jenkinsfile in this repo
+
+  The Jenkinsfile in this repo consumes these parameters:
+    params.ENVIRONMENT, params.JIRA_PROJECT, params.RTV, params.DEPLOY_ENABLED
+-->
+<flow-definition plugin="workflow-job@1307.v58e48a763b31">
+  <actions/>
+  <description>Sample template-style pipeline backed by the my-shared-library shared library.</description>
+  <keepDependencies>false</keepDependencies>
+
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+
+        <!-- Parameter 1: target deployment environment -->
+        <hudson.model.ChoiceParameterDefinition>
+          <name>ENVIRONMENT</name>
+          <description>The environment to deploy to.</description>
+          <choices class="java.util.Arrays$ArrayList">
+            <a class="string-array">
+              <string>DEV</string>
+              <string>QA</string>
+              <string>PROD</string>
+            </a>
+          </choices>
+        </hudson.model.ChoiceParameterDefinition>
+
+        <!-- Parameter 2: Jira project key used for deployment tracking tickets -->
+        <hudson.model.StringParameterDefinition>
+          <name>JIRA_PROJECT</name>
+          <description>Jira project key (e.g. SEV) used when creating deployment/SEO subtasks.</description>
+          <defaultValue>SEV</defaultValue>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+
+        <!-- Parameter 3: RTV (Release To Validation) flag -->
+        <hudson.model.BooleanParameterDefinition>
+          <name>RTV</name>
+          <description>Check if this build is part of an RTV (release-to-validation) effort.</description>
+          <defaultValue>false</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+
+        <!-- Parameter 4: whether the deploy stage should actually run -->
+        <hudson.model.BooleanParameterDefinition>
+          <name>DEPLOY_ENABLED</name>
+          <description>Enable the deploy stage for this run.</description>
+          <defaultValue>true</defaultValue>
+        </hudson.model.BooleanParameterDefinition>
+
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition" plugin="workflow-cps@3746.v99de3e2e0092">
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@5.1.1">
+      <configVersion>2</configVersion>
+      <userRemoteConfigs>
+        <hudson.plugins.git.UserRemoteConfig>
+          <!-- Point this at wherever this repository is hosted -->
+          <url>https://github.com/your-org/sample-jenkins-template.git</url>
+        </hudson.plugins.git.UserRemoteConfig>
+      </userRemoteConfigs>
+      <branches>
+        <hudson.plugins.git.BranchSpec>
+          <name>*/main</name>
+        </hudson.plugins.git.BranchSpec>
+      </branches>
+      <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+      <submoduleCfg class="empty-list"/>
+      <extensions/>
+    </scm>
+    <scriptPath>Jenkinsfile</scriptPath>
+    <lightweight>true</lightweight>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
