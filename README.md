@@ -49,14 +49,19 @@ split `vars/` into a dedicated `my-shared-library` repository.
 
 ## Setting it up on a Jenkins server
 
-1. **Register the shared library** (this repo doubles as the library)
-   Manage Jenkins → System → *Global Pipeline Libraries* → add a library:
-   - Name: `my-shared-library`
-   - Default version: `main`
-   - Retrieval: Modern SCM → Git → `https://github.com/grvsoni/sample-jenkins-template.git`
+1. **No shared library registration needed** — the Jenkinsfile loads the library
+   with an inline retriever:
 
-   The Jenkinsfile pins `@main` explicitly, which is why the function is loaded
-   from the matching branch of this same repo.
+   ```groovy
+   library identifier: 'my-shared-library@main',
+       retriever: modernSCM([$class: 'GitSCMSource',
+                             remote: 'https://github.com/grvsoni/sample-jenkins-template.git'])
+   ```
+
+   because `vars/` sits at the root of this same repo. (If you prefer the classic
+   setup: Manage Jenkins → System → *Global Pipeline Libraries*, Name:
+   `my-shared-library`, Default version: `main`, Git URL of this repo — and then
+   you can use `@Library(['my-shared-library@main'])_` in the Jenkinsfile instead.)
 
 2. **Create the job from `config.xml`**
    ```bash
@@ -73,8 +78,12 @@ split `vars/` into a dedicated `my-shared-library` repository.
 
 ## Troubleshooting
 
-- **`Could not find any definition of libraries [my-shared-library]`** — the
-  global pipeline library from step 1 isn't registered (or is named
-  differently), or the registered default version/branch doesn't exist.
+- **`Could not find any definition of libraries [my-shared-library]`** — that
+  error comes from the `@Library` annotation, which requires a library to be
+  preregistered by name. The current Jenkinsfile uses an inline
+  `library identifier: ... retriever: modernSCM(...)` instead, so you should
+  no longer see it. (It would only return if you switched back to `@Library`
+  without registering the library in Manage Jenkins.)
+
 - **`vars/... could not be found`** — the library repo must have `vars/` at its
   root, not in a subfolder.
