@@ -63,7 +63,7 @@
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
           <!-- Point this at wherever this repository is hosted -->
-          <url>https://github.com/your-org/sample-jenkins-template.git</url>
+          <url>https://github.com/grvsoni/sample-jenkins-template.git</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
