@@ -1,4 +1,4 @@
-@Library(['my-shared-library'])_
+@Library(['my-shared-library@main'])_
 
 // Application name for this service
 def appName = 'sample-service'
