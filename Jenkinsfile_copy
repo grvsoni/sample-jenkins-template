@@ -1,0 +1,26 @@
+@Library(['luigi-shared-library', 'pipeline-library'])_
+ 
+def appName = 'ivr-tagging-guide'
+// Run Maven Kubernetes based multi branch job template
+runKubeMavenMultiBranchJobTemplate teamName: 'ivr',
+        appName: "${appName}",
+        k8sNamespace: 'us-ivr-micro',
+        deployXmlPath: 'deployit-manifest.xml',
+        resourcesYamlPath: 'resources.yaml',
+        xldPackageIdSuffix: "ivr/us/${appName}",
+        imageTag: "784102274315.dkr.ecr.us-east-2.amazonaws.com/service-excellence-ivr/us/usnlp/${appName}",
+        checkmarxProjectName: "${appName}",
+        checkmarxTeamPath: "ServiceExcellence/IVR",
+        blackduckProjectName: "IVR-TaggingGuide_API_30000292",
+        blackduckProjectVersion: "sandbox",
+        blackduckBuc: "30000292",
+        blackduckFiles: "./",
+        blackduckDetectScriptUrl: "https://detect.synopsys.com/detect8.sh",
+        blackduckCredId: "BLACKDUCK_TOKEN",
+        kpackBuilder: 'jammy-base',
+        snykProjectName: "${appName}",
+        snykUseEnvironmentSuffix: true,
+        snykOrgId: 'wp-nlp-ivr',
+        snykOrgUUId:'b74296be-e1bf-429a-9ea2-9e84dd1e541e',
+        severity: 'low',
+        snykMonitor: 'true'
