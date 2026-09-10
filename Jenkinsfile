@@ -10,4 +10,4 @@ runSampleTemplate teamName: 'service-excellence',
     jiraProject: params.JIRA_PROJECT,
     sevSeoLevel: (params.ENVIRONMENT == 'PROD' || params.RTV) ? 'high' : 'normal',
     jiraComponent: 'sample-component',
-    deployEnabled: params.DEPLOY_ENABLED
+    deployEnabled: true
