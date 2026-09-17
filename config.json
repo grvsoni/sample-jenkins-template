@@ -1,0 +1,54 @@
+{
+  "namespace": "wpap-ci",
+  "environment": "stage",
+  "secretCredential": "seedSecretPassword",
+  "secretFile": "./ocp/secret-qa.yaml",
+  "serviceName": "fxt-single-payout-api",
+  "pkiCredential": "PkiCredentials",
+  "pkiCollectionName": "FIS-WP FXT Titan Support Group_Internal",
+  "routeType": "edge",
+  "splunkTokenCredential": "splunkToken",
+  "clusters": [
+    {
+      "destinationRegion": "eu-west-1-hf2js.stage.msp.worldpay.io",
+      "hostName": "",
+      "certificateName": "",
+      "credentials": "wpapCiCredentialsEw1",
+      "configMaps": [
+        { "label": "region=ew1-stage-wpap-ci" }
+      ],
+      "routes": [
+        {
+          "name": "fxt-payout-api-ci-eu-west-1.worldpaytd.local",
+          "hostName": "fxt-payout-api-ci-eu-west-1.worldpaytd.local",
+          "whitelistAddresses": "",
+          "tlsCertificate": "fxt-payout-api-stag.worldpaypp.local"
+        }
+      ]
+    },
+    {
+      "destinationRegion": "eu-west-2-tb1gr.stage.msp.worldpay.io",
+      "hostName": "",
+      "certificateName": "",
+      "credentials": "wpapCiCredentialsEw2",
+      "configMaps": [
+        { "label": "region=ew2-stage-wpap-ci" }
+      ],
+      "routes": [
+        {
+          "name": "fxt-payout-api-ci-eu-west-2.worldpaytd.local",
+          "hostName": "fxt-payout-api-ci-eu-west-2.worldpaytd.local",
+          "whitelistAddresses": "",
+          "tlsCertificate": "fxt-payout-api-stag.worldpaypp.local"
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "CPURequest": "100m",
+    "CPULimit": "100m",
+    "MemoryLimit": "200Mi",
+    "MemoryRequest": "200Mi",
+    "ReplicaCount": 1
+  }
+}
